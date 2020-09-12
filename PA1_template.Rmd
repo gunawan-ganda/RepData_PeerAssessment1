@@ -32,7 +32,7 @@ Total_Steps <- activityDT[, c(lapply(.SD, sum, na.rm = FALSE)), .SDcols = c("ste
 head(Total_Steps, 10)
 ```
 
-2. If you do not understand the difference between a histogram and a barplot, research the difference between them. Make a histogram of the total number of steps taken each day. 
+2. Make a histogram of the total number of steps taken each day. 
 
 ```{r}
 ggplot(Total_Steps, aes(x = steps)) +
@@ -40,13 +40,13 @@ ggplot(Total_Steps, aes(x = steps)) +
     labs(title = "Daily Steps", x = "Steps", y = "Frequency")
 ```
 
-3. Calculate and report the mean and median of the total number of steps taken per day
+3. Calculate and report the mean and median of the total number of steps taken per day.
 ```{r}
 Total_Steps[, .(Mean_Steps = mean(steps, na.rm = TRUE), Median_Steps = median(steps, na.rm = TRUE))]
 ```
 
 ## What is the average daily activity pattern?
-1. Make a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+1. Make a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis).
 
 ```{r}
 IntervalDT <- activityDT[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("steps"), by = .(interval)] 
@@ -61,7 +61,7 @@ IntervalDT[steps == max(steps), .(max_interval = interval)]
 ```
 
 ## Imputing missing values
-1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with 𝙽𝙰s)
+1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with 𝙽𝙰s).
 
 ```{r}
 activityDT[is.na(steps), .N ]
@@ -70,7 +70,7 @@ activityDT[is.na(steps), .N ]
 nrow(activityDT[is.na(steps),])
 ```
 
-2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+2. Devise a strategy for filling in all of the missing values in the dataset.
 
 ```{r}
 # Filling in missing values with median of dataset. 
@@ -83,7 +83,7 @@ activityDT[is.na(steps), "steps"] <- activityDT[, c(lapply(.SD, median, na.rm = 
 data.table::fwrite(x = activityDT, file = "data/tidyData.csv", quote = FALSE)
 ```
 
-4. Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+4. Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day.
 
 ```{r}
 # total number of steps taken per day
@@ -104,7 +104,7 @@ Second Part (fillin in na with median) | 9354.23 | 10395
 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
 ```{r}
-# Just recreating activityDT from scratch then making the new factor variable. (No need to, just want to be clear on what the entire process is.) 
+# Just recreating activityDT from scratch then making the new factor variable.
 activityDT <- data.table::fread(input = "data/activity.csv")
 activityDT[, date := as.POSIXct(date, format = "%Y-%m-%d")]
 activityDT[, `Day of Week`:= weekdays(x = date)]
@@ -114,7 +114,7 @@ activityDT[, `weekday or weekend` := as.factor(`weekday or weekend`)]
 head(activityDT, 10)
 ```
 
-2. Make a panel plot containing a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.
+2. Make a panel plot containing a time series plot (i.e. 𝚝𝚢𝚙𝚎 = "𝚕") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
 ```{r}
 activityDT[is.na(steps), "steps"] <- activityDT[, c(lapply(.SD, median, na.rm = TRUE)), .SDcols = c("steps")]
