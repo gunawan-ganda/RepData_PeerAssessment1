@@ -1,7 +1,6 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document: PA1_template.html
+output: "PA1_template.html"
 ---
 
 
